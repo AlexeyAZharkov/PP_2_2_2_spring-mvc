@@ -8,15 +8,19 @@ import web.service.CarServiceImp;
 
 
 @Controller
-public class Cars {
+public class CarsController {
+
+	private CarServiceImp carServiceImp;
+
+	public CarsController(CarServiceImp carServiceImp) {
+		this.carServiceImp = carServiceImp;
+	}
 
 	@GetMapping(value = "/cars")
 	public String carPage(@RequestParam(value = "count", required = false) Integer count,
 						  Model model) {
 
-		CarServiceImp carServiceImp = new CarServiceImp();
-
-		count = (count == null || count > 5) ? 5 : count;
+		count = (count == null || count > 5 || count < 0) ? 5 : count;
 
 		model.addAttribute("carsForShow", carServiceImp.listCarsFromRequest(count));
 
